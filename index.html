@@ -156,6 +156,7 @@ align-items:center;
 }
 
 .popup-box{
+position:relative;
 background:white;
 padding:40px;
 border-radius:20px;
@@ -163,6 +164,17 @@ text-align:center;
 color:#ff4d6d;
 animation:fade 1s ease;
 }
+
+.close{
+position:absolute;
+top:12px;
+right:18px;
+font-size:20px;
+cursor:pointer;
+color:#ff4d6d;
+font-weight:bold;
+}
+
 
 </style>
 
@@ -193,11 +205,16 @@ animation:fade 1s ease;
 </div>
 
 <div class="popup" id="popup">
-<div class="popup-box">
-<h2>I Love You ❤️</h2>
-<p>You are my today, tomorrow, and every forever.</p>
+  <div class="popup-box">
+    
+    <span class="close" onclick="closePopup()">✖</span>
+
+    <h2>I Love You ❤️</h2>
+    <p>You are my today, tomorrow, and every forever.</p>
+
+  </div>
 </div>
-</div>
+
 
 <!-- MUSIC -->
 <audio id="music" loop>
@@ -269,6 +286,26 @@ setTimeout(typeMessage,40);
 function showPopup(){
 document.getElementById("popup").style.display="flex";
 }
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+// outside click close
+window.onclick = function(e){
+const popup = document.getElementById("popup");
+if(e.target === popup){
+popup.style.display="none";
+}
+}
+
+// ESC key close
+document.addEventListener("keydown", function(e){
+if(e.key === "Escape"){
+document.getElementById("popup").style.display="none";
+}
+});
+
 
 </script>
 
