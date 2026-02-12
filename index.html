@@ -112,6 +112,8 @@ object-fit:cover;
 border:5px solid white;
 box-shadow:0 0 25px rgba(255,255,255,.8);
 margin-bottom:20px;
+user-select:none;
+-webkit-user-drag:none;
 }
 
 .title{
@@ -153,28 +155,44 @@ background:rgba(0,0,0,.75);
 display:none;
 justify-content:center;
 align-items:center;
+backdrop-filter:blur(6px);
 }
 
 .popup-box{
 position:relative;
-background:white;
-padding:40px;
-border-radius:20px;
+background:rgba(255,255,255,0.95);
+padding:45px;
+border-radius:25px;
 text-align:center;
 color:#ff4d6d;
-animation:fade 1s ease;
+animation:fade .6s ease;
+box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
+
+/* MODERN CLOSE BUTTON */
 
 .close{
 position:absolute;
 top:12px;
-right:18px;
-font-size:20px;
+right:15px;
+width:38px;
+height:38px;
+border:none;
+border-radius:50%;
+background:#ff4d6d;
+color:white;
+font-size:24px;
 cursor:pointer;
-color:#ff4d6d;
-font-weight:bold;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 4px 12px rgba(0,0,0,0.25);
+transition:.3s;
 }
 
+.close:hover{
+transform:scale(1.15);
+}
 
 </style>
 
@@ -191,8 +209,6 @@ font-weight:bold;
 <div class="container">
 <div class="card">
 
-<!-- 👉 GF PHOTO LINK YAHA DAALO -->
-
 <img src="gf.jpg">
 
 <div class="title">Happy Valentine's Day</div>
@@ -205,22 +221,19 @@ font-weight:bold;
 </div>
 
 <div class="popup" id="popup">
-  <div class="popup-box">
-    
-    <span class="close" onclick="closePopup()">✖</span>
+<div class="popup-box">
 
-    <h2>I Love You ❤️</h2>
-    <p>You are my today, tomorrow, and every forever.</p>
+<button class="close" onclick="closePopup()">×</button>
 
-  </div>
+<h2>I Love You ❤️</h2>
+<p>You are my today, tomorrow, and every forever.</p>
+
+</div>
 </div>
 
-
-<!-- MUSIC -->
 <audio id="music" loop>
-   <source src="music.mp3" type="audio/mpeg">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
-
 
 <script>
 
@@ -232,24 +245,20 @@ document.querySelector(".container").style.display="block";
 
 const music = document.getElementById("music");
 
-// force play after user tap
 music.currentTime = 0;
 music.volume = 0.8;
 
-music.play().then(()=>{
-console.log("Music started");
-}).catch(()=>{
-document.addEventListener("click", function(){
+music.play().catch(()=>{
+document.addEventListener("click",()=>{
 music.play();
-}, {once:true});
+},{once:true});
 });
 
 typeMessage();
 }
 
 
-
-// FLOATING HEARTS
+// HEARTS
 function createHeart(){
 const heart=document.createElement("div");
 heart.classList.add("heart");
@@ -265,11 +274,8 @@ setTimeout(()=>heart.remove(),7000);
 setInterval(createHeart,350);
 
 
-// ROMANTIC TYPING
-const text="The day you came into my life was the day my world became brighter. \
-You are not just my love — you are my safest place, my biggest smile, and my most beautiful blessing. \
-If loving you is a dream, I never want to wake up. \
-In every lifetime, my heart will always search for you... and choose you. ❤️";
+// TYPING MESSAGE
+const text="The day you came into my life was the day my world became brighter. You are not just my love — you are my safest place, my biggest smile, and my most beautiful blessing. If loving you is a dream, I never want to wake up. In every lifetime, my heart will always search for you... and choose you. ❤️";
 
 let i=0;
 
@@ -277,7 +283,7 @@ function typeMessage(){
 if(i<text.length){
 document.getElementById("message").innerHTML+=text.charAt(i);
 i++;
-setTimeout(typeMessage,40);
+setTimeout(typeMessage,35);
 }
 }
 
@@ -293,19 +299,18 @@ document.getElementById("popup").style.display="none";
 
 // outside click close
 window.onclick = function(e){
-const popup = document.getElementById("popup");
-if(e.target === popup){
+const popup=document.getElementById("popup");
+if(e.target===popup){
 popup.style.display="none";
 }
 }
 
-// ESC key close
-document.addEventListener("keydown", function(e){
-if(e.key === "Escape"){
-document.getElementById("popup").style.display="none";
+// ESC close
+document.addEventListener("keydown",function(e){
+if(e.key==="Escape"){
+closePopup();
 }
 });
-
 
 </script>
 
